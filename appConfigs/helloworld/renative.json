@@ -1,0 +1,38 @@
+{
+    "extend": "base",
+    "id": "helloworld",
+    "common": {
+        "id": "com.mycompany.movies-assigment-i24",
+        "title": "Hello Renative",
+        "description": "Cross-platform application project based on ReNative",
+        "buildSchemes": {
+            "debug": {
+                "id": "renative.helloworld.debug",
+                "title": "ReNative Debug"
+            },
+            "release": {}
+        }
+    },
+    "platforms": {
+        "android": {
+            "buildSchemes": {
+                "debug": {}
+            }
+        },
+        "androidtv": {
+            "buildSchemes": {
+                "debug": {}
+            }
+        },
+        "ios": {
+            "buildSchemes": {
+                "debug": {}
+            }
+        },
+        "tvos": {
+            "buildSchemes": {
+                "debug": {}
+            }
+        }
+    }
+}
