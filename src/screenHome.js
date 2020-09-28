@@ -1,11 +1,16 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { Text, Image, View, ScrollView, PixelRatio } from 'react-native';
 import { Api, Button, getScaledValue, useNavigate, useOpenURL, StyleSheet } from 'renative';
+import { useQuery } from 'react-query';
+import { ReactQueryDevtools } from 'react-query-devtools';
 import { withFocusable } from '@noriginmedia/react-spatial-navigation';
 import Theme, { themeStyles, hasWebFocusableUI } from './theme';
 import config from '../platformAssets/renative.runtime.json';
 import packageJson from '../package.json';
 import icon from '../platformAssets/runtime/logo.png';
+
+const API_KEY = 'cf9e0df007ff568c06e0d861b874fa2c';
+const END_POINT = `https://api.themoviedb.org/3/movie/popular?api_key=${API_KEY}`;
 
 const styles = StyleSheet.create({
     appContainerScroll: {
@@ -15,13 +20,19 @@ const styles = StyleSheet.create({
     image: {
         marginBottom: getScaledValue(30),
         width: getScaledValue(83),
-        height: getScaledValue(97),
+        height: getScaledValue(97)
     }
 });
 
 const FocusableView = withFocusable()(View);
 
-const ScreenHome = (props) => {
+const ScreenHome = props => {
+    const { isLoading, error, data: dataMovies } = useQuery('repoData', () =>
+        fetch(END_POINT).then(res => res.json())
+    );
+
+    console.log(isLoading, error, dataMovies);
+
     const [bgColor, setBgColor] = useState(Theme.color1);
     const navigate = useNavigate(props);
     const openURL = useOpenURL();
@@ -35,13 +46,18 @@ const ScreenHome = (props) => {
         handleFocus = ({ y }) => {
             scrollRef.current.scrollTo({ y });
         };
-        handleUp = (direction) => {
+        handleUp = direction => {
             if (direction === 'up') scrollRef.current.scrollTo({ y: 0 });
         };
-        useEffect(() => function cleanup() {
-            setFocus('menu');
-        }, []);
+        useEffect(
+            () =>
+                function cleanup() {
+                    setFocus('menu');
+                },
+            []
+        );
     }
+
     return (
         <View style={themeStyles.screen}>
             <ScrollView
@@ -50,13 +66,8 @@ const ScreenHome = (props) => {
                 contentContainerStyle={themeStyles.container}
             >
                 <Image style={styles.image} source={icon} />
-                <Text style={themeStyles.textH2}>
-                    {config.welcomeMessage}
-                </Text>
-                <Text style={themeStyles.textH2}>
-v
-                    {packageJson.version}
-                </Text>
+                <Text style={themeStyles.textH2}>{config.welcomeMessage}</Text>
+                <Text style={themeStyles.textH2}>v{packageJson.version}</Text>
                 <Text style={themeStyles.textH3}>
                     {`platform: ${Api.platform}, factor: ${Api.formFactor}, engine: ${Api.engine}`}
                 </Text>
@@ -94,7 +105,10 @@ v
                     }}
                     onBecameFocused={handleFocus}
                 />
-                <FocusableView style={{ marginTop: 20, flexDirection: 'row' }} onBecameFocused={handleFocus}>
+                <FocusableView
+                    style={{ marginTop: 20, flexDirection: 'row' }}
+                    onBecameFocused={handleFocus}
+                >
                     <Button
                         iconFont="fontAwesome"
                         className="focusable"

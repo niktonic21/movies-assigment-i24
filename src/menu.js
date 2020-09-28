@@ -12,7 +12,7 @@ if (hasWebFocusableUI) {
     });
 }
 
-export const DrawerButton = (props) => {
+export const DrawerButton = props => {
     const openDrawer = useOpenDrawer(props);
     return (
         <Icon
@@ -57,19 +57,18 @@ const styles = StyleSheet.create({
     }
 });
 
-const Menu = (props) => {
+const Menu = props => {
     const navigate = useNavigate(props);
-    if (hasWebFocusableUI) {
-        useEffect(() => {
+
+    useEffect(() => {
+        if (hasWebFocusableUI) {
             props.setFocus();
-        }, []);
-    }
+        }
+    }, []);
 
     return (
         <View style={styles.container}>
-            <Text style={themeStyles.text}>
-Menu
-            </Text>
+            <Text style={themeStyles.text}>Menu</Text>
             <Button
                 to="/"
                 title="Home"
@@ -125,4 +124,4 @@ Menu
     );
 };
 
-export default (hasWebFocusableUI ? withFocusable()(Menu) : Menu);
+export default hasWebFocusableUI ? withFocusable()(Menu) : Menu;

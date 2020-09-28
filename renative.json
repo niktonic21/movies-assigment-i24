@@ -12,12 +12,7 @@
     "defaults": {
         "title": "Hello Renative",
         "id": "com.mycompany.movies-assigment-i24",
-        "supportedPlatforms": [
-            "android",
-            "androidtv",
-            "ios",
-            "tvos"
-        ]
+        "supportedPlatforms": ["android", "androidtv", "ios", "tvos"]
     },
     "templates": {
         "renative-template-hello-world": {
@@ -56,7 +51,9 @@
         },
         "@noriginmedia/react-spatial-navigation": "source:rnv",
         "renative": "source:rnv",
-        "detox": "source:rnv"
+        "detox": "source:rnv",
+        "react-native-video": "source:rnv",
+        "react-native-orientation-locker": "source:rnv"
     },
     "platforms": {
         "android": {
@@ -86,6 +83,22 @@
                         "android:usesCleartextTraffic": true,
                         "tools:targetApi": 28
                     }
+                ]
+            }
+        },
+        "ios": {
+            "orientationSupport": {
+                "phone": [
+                    "UIInterfaceOrientationPortrait",
+                    "UIInterfaceOrientationPortraitUpsideDown",
+                    "UIInterfaceOrientationLandscapeLeft",
+                    "UIInterfaceOrientationLandscapeRight"
+                ],
+                "tab": [
+                    "UIInterfaceOrientationPortrait",
+                    "UIInterfaceOrientationPortraitUpsideDown",
+                    "UIInterfaceOrientationLandscapeLeft",
+                    "UIInterfaceOrientationLandscapeRight"
                 ]
             }
         }
