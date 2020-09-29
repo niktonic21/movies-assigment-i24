@@ -1,54 +1,34 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { Text, Image, View, ScrollView, PixelRatio } from 'react-native';
-import { Api, Button, getScaledValue, useNavigate, useOpenURL, StyleSheet } from 'renative';
+import { useNavigate } from 'renative';
+import { View, ScrollView } from 'react-native';
 import { useQuery } from 'react-query';
-import { ReactQueryDevtools } from 'react-query-devtools';
 import { withFocusable } from '@noriginmedia/react-spatial-navigation';
 import Theme, { themeStyles, hasWebFocusableUI } from './theme';
-import config from '../platformAssets/renative.runtime.json';
-import packageJson from '../package.json';
-import icon from '../platformAssets/runtime/logo.png';
-
-const API_KEY = 'cf9e0df007ff568c06e0d861b874fa2c';
-const END_POINT = `https://api.themoviedb.org/3/movie/popular?api_key=${API_KEY}`;
-
-const styles = StyleSheet.create({
-    appContainerScroll: {
-        paddingTop: getScaledValue(50),
-        flex: 1
-    },
-    image: {
-        marginBottom: getScaledValue(30),
-        width: getScaledValue(83),
-        height: getScaledValue(97)
-    }
-});
-
-const FocusableView = withFocusable()(View);
+import CustomCarousel from './components/CustomCarousel';
+import * as str from '../assets/strings';
+import { getEndPoint, getGenreId, getGenreIdSuffix } from './utils/apiUtils';
 
 const ScreenHome = props => {
-    const { isLoading, error, data: dataMovies } = useQuery('repoData', () =>
-        fetch(END_POINT).then(res => res.json())
+    const navigate = useNavigate(props);
+    const [familyId, setFamilyId] = useState(null);
+    const [documentaryId, setDocumentaryId] = useState(null);
+
+    const { data } = useQuery(str.END_GENRE_LIST, () =>
+        fetch(getEndPoint(str.END_GENRE_LIST)).then(res => res.json())
     );
 
-    console.log(isLoading, error, dataMovies);
+    useEffect(() => {
+        if (data && data.genres) {
+            setFamilyId(getGenreId(data.genres, str.FAMILY));
+            setDocumentaryId(getGenreId(data.genres, str.DOCUMENTARY));
+        }
+    }, [data]);
 
-    const [bgColor, setBgColor] = useState(Theme.color1);
-    const navigate = useNavigate(props);
-    const openURL = useOpenURL();
     let scrollRef;
-    let handleFocus;
-    let handleUp;
 
     if (hasWebFocusableUI) {
         scrollRef = useRef(null);
         const { setFocus } = props;
-        handleFocus = ({ y }) => {
-            scrollRef.current.scrollTo({ y });
-        };
-        handleUp = direction => {
-            if (direction === 'up') scrollRef.current.scrollTo({ y: 0 });
-        };
         useEffect(
             () =>
                 function cleanup() {
@@ -58,82 +38,44 @@ const ScreenHome = props => {
         );
     }
 
+    const _onPressItem = item => {
+        navigate('Detail', { replace: false }, { item });
+    };
+
     return (
         <View style={themeStyles.screen}>
             <ScrollView
-                style={{ backgroundColor: bgColor }}
+                style={{ backgroundColor: Theme.color1 }}
                 ref={scrollRef}
                 contentContainerStyle={themeStyles.container}
+                onPressItem={_onPressItem}
             >
-                <Image style={styles.image} source={icon} />
-                <Text style={themeStyles.textH2}>{config.welcomeMessage}</Text>
-                <Text style={themeStyles.textH2}>v{packageJson.version}</Text>
-                <Text style={themeStyles.textH3}>
-                    {`platform: ${Api.platform}, factor: ${Api.formFactor}, engine: ${Api.engine}`}
-                </Text>
-                <Text style={themeStyles.textH3}>
-                    {`hermes: ${global.HermesInternal === undefined ? 'no' : 'yes'}`}
-                </Text>
-                <Text style={themeStyles.textH3}>
-                    {`pixelRatio: ${PixelRatio.get()}, ${PixelRatio.getFontScale()}`}
-                </Text>
-                <Button
-                    style={themeStyles.button}
-                    textStyle={themeStyles.buttonText}
-                    title="Try Me!"
-                    className="focusable"
-                    onPress={() => {
-                        setBgColor(bgColor === '#666666' ? Theme.color1 : '#666666');
-                    }}
-                    onEnterPress={() => {
-                        setBgColor(bgColor === '#666666' ? Theme.color1 : '#666666');
-                    }}
-                    onBecameFocused={handleFocus}
-                    onArrowPress={handleUp}
-                    testID="try-me-button"
+                <CustomCarousel
+                    categoryEndpoint={str.END_MOVIES_POP}
+                    categoryName={str.MOVIES_POP}
+                    onPressItem={_onPressItem}
                 />
-                <Button
-                    style={themeStyles.button}
-                    textStyle={themeStyles.buttonText}
-                    title="Now Try Me!"
-                    className="focusable"
-                    onPress={() => {
-                        navigate('my-page', { replace: false });
-                    }}
-                    onEnterPress={() => {
-                        navigate('my-page', { replace: false });
-                    }}
-                    onBecameFocused={handleFocus}
+                <CustomCarousel
+                    categoryEndpoint={str.END_TV_POP}
+                    categoryName={str.TV_POP}
+                    onPressItem={_onPressItem}
                 />
-                <FocusableView
-                    style={{ marginTop: 20, flexDirection: 'row' }}
-                    onBecameFocused={handleFocus}
-                >
-                    <Button
-                        iconFont="fontAwesome"
-                        className="focusable"
-                        focusKey="github"
-                        iconName="github"
-                        iconColor={Theme.color3}
-                        iconSize={Theme.iconSize}
-                        style={themeStyles.icon}
-                        onPress={() => {
-                            openURL('https://github.com/pavjacko/renative');
-                        }}
+                {familyId ? (
+                    <CustomCarousel
+                        categoryName={str.FAMILY}
+                        categoryEndpoint={str.END_DISCOVER}
+                        extras={getGenreIdSuffix(familyId)}
+                        onPressItem={_onPressItem}
                     />
-                    <Button
-                        iconFont="fontAwesome"
-                        className="focusable"
-                        iconName="twitter"
-                        focusKey="twitter"
-                        iconColor={Theme.color3}
-                        iconSize={Theme.iconSize}
-                        style={themeStyles.icon}
-                        onPress={() => {
-                            openURL('https://twitter.com/renative');
-                        }}
+                ) : null}
+                {documentaryId ? (
+                    <CustomCarousel
+                        categoryName={str.DOCUMENTARY}
+                        categoryEndpoint={str.END_DISCOVER}
+                        extras={getGenreIdSuffix(documentaryId)}
+                        onPressItem={_onPressItem}
                     />
-                </FocusableView>
+                ) : null}
             </ScrollView>
         </View>
     );

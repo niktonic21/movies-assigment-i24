@@ -4,7 +4,7 @@ import { Router, navigate } from '@reach/router';
 import { Api } from 'renative';
 
 import ScreenHome from '../screenHome';
-import ScreenMyPage from '../screenMyPage';
+import ScreenMyPage from '../screenDetail';
 import ScreenModal from '../screenModal';
 import Menu from '../menu';
 import { themeStyles } from '../theme';

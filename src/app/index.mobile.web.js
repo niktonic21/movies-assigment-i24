@@ -4,7 +4,7 @@ import { createStackNavigator } from '@react-navigation/stack';
 import { NavigationContainer } from '@react-navigation/native';
 import { getScaledValue } from 'renative';
 import ScreenHome from '../screenHome';
-import ScreenMyPage from '../screenMyPage';
+import ScreenMyPage from '../screenDetail';
 import ScreenModal from '../screenModal';
 import Menu, { DrawerButton } from '../menu';
 import Theme from '../theme';

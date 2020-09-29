@@ -1,5 +1,14 @@
-import { getScaledValue, isEngineWeb, isFactorMobile, isFactorDesktop,
-    isFactorTv, isEngineNative, isFactorBrowser, registerServiceWorker, StyleSheet } from 'renative';
+import {
+    getScaledValue,
+    isEngineWeb,
+    isFactorMobile,
+    isFactorDesktop,
+    isFactorTv,
+    isEngineNative,
+    isFactorBrowser,
+    registerServiceWorker,
+    StyleSheet
+} from 'renative';
 // import '../platformAssets/runtime/fontManager';
 
 if (isFactorBrowser) registerServiceWorker();
@@ -19,6 +28,7 @@ const theme = {
     color3: '#FB8D62',
     color4: '#FFFFFF',
     color5: '#AAAAAA',
+    color6: '#555555',
     primaryFontFamily: 'TimeBurner',
     iconSize: getScaledValue(40),
     menuWidth: hasHorizontalMenu || hasFullScreenMenu ? '100%' : 280,
@@ -28,28 +38,35 @@ const theme = {
 
 export const themeStyles = StyleSheet.create({
     app: {
-        flexDirection: isFactorDesktop ? 'row' : 'column', position: 'absolute', top: 0, right: 0, left: 0, bottom: 0
+        flexDirection: isFactorDesktop ? 'row' : 'column',
+        position: 'absolute',
+        top: 0,
+        right: 0,
+        left: 0,
+        bottom: 0
     },
     container: {
         justifyContent: 'center',
         alignItems: 'center',
-        paddingVertical: getScaledValue(50),
+        paddingVertical: getScaledValue(20),
         minHeight: getScaledValue(300),
         alignSelf: 'stretch',
         width: '100%'
     },
-    modalContainer: isEngineWeb ? {
-        position: 'absolute',
-        backgroundColor: theme.color1,
-        zIndex: 100,
-        top: 0,
-        left: 0,
-        height: '100vh',
-        width: '100%'
-    } : {
-        flex: 1,
-        backgroundColor: theme.color1
-    },
+    modalContainer: isEngineWeb
+        ? {
+              position: 'absolute',
+              backgroundColor: theme.color1,
+              zIndex: 100,
+              top: 0,
+              left: 0,
+              height: '100vh',
+              width: '100%'
+          }
+        : {
+              flex: 1,
+              backgroundColor: theme.color1
+          },
     textH2: {
         fontFamily: theme.primaryFontFamily,
         fontSize: getScaledValue(20),
@@ -74,12 +91,12 @@ export const themeStyles = StyleSheet.create({
         color: theme.color4,
         fontSize: getScaledValue(20),
         marginTop: getScaledValue(10),
-        textAlign: 'left',
+        textAlign: 'left'
     },
     icon: {
         width: getScaledValue(40),
         height: getScaledValue(40),
-        margin: getScaledValue(10),
+        margin: getScaledValue(10)
     },
     button: {
         marginHorizontal: getScaledValue(20),
@@ -90,12 +107,11 @@ export const themeStyles = StyleSheet.create({
         minWidth: getScaledValue(150),
         maxWidth: getScaledValue(200),
         marginTop: getScaledValue(20)
-
     },
     buttonText: {
         fontFamily: theme.primaryFontFamily,
         color: theme.color2,
-        fontSize: getScaledValue(20),
+        fontSize: getScaledValue(20)
     },
     screen: {
         position: 'absolute',

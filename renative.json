@@ -12,7 +12,12 @@
     "defaults": {
         "title": "Hello Renative",
         "id": "com.mycompany.movies-assigment-i24",
-        "supportedPlatforms": ["android", "androidtv", "ios", "tvos"]
+        "supportedPlatforms": [
+            "android",
+            "androidtv",
+            "ios",
+            "tvos"
+        ]
     },
     "templates": {
         "renative-template-hello-world": {
@@ -39,6 +44,8 @@
         "@react-navigation/material-top-tabs": "5.1.1",
         "@react-navigation/web": "1.0.0-alpha.9",
         "@react-native-community/masked-view": "0.1.6",
+        "react-query": "2.23.0",
+        "react-query-devtools": "2.5.1",
         "@react-native-community/viewpager": "source:rnv",
         "react-native-safe-area-context": "source:rnv",
         "react-native-safe-area-view": "source:rnv",
@@ -53,7 +60,8 @@
         "renative": "source:rnv",
         "detox": "source:rnv",
         "react-native-video": "source:rnv",
-        "react-native-orientation-locker": "source:rnv"
+        "react-native-orientation-locker": "source:rnv",
+        "react-native-snap-carousel": "source:rnv"
     },
     "platforms": {
         "android": {

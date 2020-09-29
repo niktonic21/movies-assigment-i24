@@ -2,12 +2,13 @@ import React from 'react';
 import { StyleSheet, StatusBar } from 'react-native';
 import { createStackNavigator } from '@react-navigation/stack';
 import { NavigationContainer } from '@react-navigation/native';
-import { CastButton } from 'react-native-google-cast';
 import { getScaledValue } from 'renative';
 import { QueryCache, ReactQueryCacheProvider } from 'react-query';
+import SearchButton from '../components/SearchButton';
 import ScreenHome from '../screenHome';
-import ScreenMyPage from '../screenMyPage';
+import ScreenDetail from '../screenDetail';
 import ScreenModal from '../screenModal';
+import ScreenSearch from '../screenSearch';
 import Theme from '../theme';
 
 const Stack = createStackNavigator();
@@ -27,7 +28,7 @@ const styles = StyleSheet.create({
     }
 });
 
-const StackNavigator = () => (
+const StackNavigator = ({ navigation }) => (
     <Stack.Navigator
         screenOptions={{
             headerTitleStyle: styles.headerTitle,
@@ -36,21 +37,14 @@ const StackNavigator = () => (
         }}
     >
         <Stack.Screen
-            name="home"
+            name="Discover"
             component={ScreenHome}
             options={{
-                headerRight: () => (
-                    <CastButton
-                        style={{
-                            width: Theme.iconSize,
-                            height: Theme.iconSize,
-                            tintColor: Theme.color3
-                        }}
-                    />
-                )
+                headerRight: () => <SearchButton navigation={navigation} />
             }}
         />
-        <Stack.Screen name="my-page" component={ScreenMyPage} />
+        <Stack.Screen name="Detail" component={ScreenDetail} />
+        <Stack.Screen name="Search" component={ScreenSearch} />
     </Stack.Navigator>
 );
 
