@@ -1,38 +1,67 @@
 import React from 'react';
+import { StyleSheet, StatusBar } from 'react-native';
 import { createStackNavigator } from '@react-navigation/stack';
 import { NavigationContainer } from '@react-navigation/native';
-import { createMaterialTopTabNavigator } from '@react-navigation/material-top-tabs';
+import { getScaledValue } from 'renative';
+import { QueryCache, ReactQueryCacheProvider } from 'react-query';
+import SearchButton from '../components/SearchButton';
 import ScreenHome from '../screenHome';
-import ScreenMyPage from '../screenDetail';
+import ScreenDetail from '../screenDetail';
 import ScreenModal from '../screenModal';
-import Menu from '../menu';
+import ScreenSearch from '../screenSearch';
+import Theme from '../theme';
 
+const Stack = createStackNavigator();
 const ModalStack = createStackNavigator();
-const TabStack = createMaterialTopTabNavigator();
+const queryCache = new QueryCache();
 
-const TabNavigator = () => (
-    <TabStack.Navigator
-        tabBar={props => <Menu {...props} />}
-        removeClippedSubviews
-        swipeEnabled={false}
-        timingConfig={{ duration: 0.001 }}
+const styles = StyleSheet.create({
+    headerTitle: {
+        color: Theme.color3,
+        fontFamily: Theme.primaryFontFamily,
+        fontSize: getScaledValue(18)
+    },
+    header: {
+        backgroundColor: Theme.color1,
+        borderBottomWidth: 1,
+        height: getScaledValue(70)
+    }
+});
+
+const StackNavigator = ({ navigation }) => (
+    <Stack.Navigator
+        screenOptions={{
+            headerTitleStyle: styles.headerTitle,
+            headerStyle: styles.header,
+            headerTintColor: Theme.color3
+        }}
     >
-        <TabStack.Screen name="home" component={ScreenHome} />
-        <TabStack.Screen name="my-page" component={ScreenMyPage} />
-    </TabStack.Navigator>
+        <Stack.Screen
+            name="Discover"
+            component={ScreenHome}
+            options={{
+                headerRight: () => <SearchButton navigation={navigation} />
+            }}
+        />
+        <Stack.Screen name="Detail" component={ScreenDetail} />
+        <Stack.Screen name="Search" component={ScreenSearch} />
+    </Stack.Navigator>
 );
 
-const App = () => (
-    <NavigationContainer>
-        <ModalStack.Navigator
-            headerMode="none"
-            mode="modal"
-            screenOptions={{ animationEnabled: false }}
-        >
-            <ModalStack.Screen name="stack" component={TabNavigator} />
-            <ModalStack.Screen name="modal" component={ScreenModal} />
-        </ModalStack.Navigator>
-    </NavigationContainer>
-);
+const App = () => {
+    React.useEffect(() => {
+        StatusBar.setBarStyle(Theme.statusBar);
+    }, []);
+    return (
+        <ReactQueryCacheProvider queryCache={queryCache}>
+            <NavigationContainer>
+                <ModalStack.Navigator headerMode="none" mode="modal">
+                    <ModalStack.Screen name="stack" component={StackNavigator} />
+                    <ModalStack.Screen name="modal" component={ScreenModal} />
+                </ModalStack.Navigator>
+            </NavigationContainer>
+        </ReactQueryCacheProvider>
+    );
+};
 
 export default App;

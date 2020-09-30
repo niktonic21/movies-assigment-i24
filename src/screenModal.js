@@ -32,10 +32,12 @@ const ScreenModal = props => {
     const pop = usePop(props);
     const { title } = props.route.params;
     useEffect(() => {
-        Orientation.lockToLandscape();
-        return () => {
-            Orientation.lockToPortrait();
-        };
+        if (hasWebFocusableUI) {
+            Orientation.lockToLandscape();
+            return () => {
+                Orientation.lockToPortrait();
+            };
+        }
     }, []);
 
     useEffect(() => {
