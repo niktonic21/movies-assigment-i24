@@ -47,6 +47,10 @@ const DeatilPage = props => {
     const { item } = props.route.params;
     const navigate = useNavigate(props);
 
+    const _onPress = () => {
+        navigate('modal', {}, { title: item.title || item.name });
+    };
+
     return (
         <View style={styles.container}>
             <ImageBackground
@@ -63,12 +67,8 @@ const DeatilPage = props => {
                             iconColor={Theme.color2}
                             iconSize={getScaledValue(50)}
                             style={styles.button}
-                            onPress={() => {
-                                navigate('modal');
-                            }}
-                            onEnterPress={() => {
-                                navigate('modal');
-                            }}
+                            onPress={_onPress}
+                            onEnterPress={_onPress}
                         />
                     </View>
                     <View>

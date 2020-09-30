@@ -22,11 +22,15 @@ const styles = StyleSheet.create({
         left: 0,
         bottom: 0,
         right: 0
+    },
+    button: {
+        marginLeft: 10
     }
 });
 
 const ScreenModal = props => {
     const pop = usePop(props);
+    const { title } = props.route.params;
     useEffect(() => {
         Orientation.lockToLandscape();
         return () => {
@@ -49,12 +53,8 @@ const ScreenModal = props => {
     return (
         <View style={themeStyles.screenModal}>
             <Video
-                source={videoFile} // Can be a URL or a local file.
-                // ref={(ref) => {
-                //     this.player = ref;
-                // }} // Store reference
-                // onBuffer={this.onBuffer} // Callback when remote video is buffering
-                // onError={this.videoError} // Callback when video cannot be loaded
+                source={videoFile}
+                resizeMode="stretch"
                 controls
                 style={styles.backgroundVideo}
             />
@@ -64,9 +64,10 @@ const ScreenModal = props => {
                     iconFont="ionicons"
                     iconName="md-close-circle"
                     className="focusable"
-                    iconColor={Theme.color3}
+                    iconColor={Theme.color6}
                     iconSize={Theme.iconSize}
-                    style={themeStyles.icon}
+                    style={styles.button}
+                    title={title}
                     to="/"
                     onEnterPress={() => {
                         pop();
