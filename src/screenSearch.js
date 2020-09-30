@@ -55,7 +55,7 @@ const styles = StyleSheet.create({
 
 const Separator = () => <View style={styles.separator} />;
 
-const _keyExtractor = (item, index) => index;
+const _keyExtractor = (item, index) => index.toString();
 
 const ScreenSearch = props => {
     const navigate = useNavigate(props);
