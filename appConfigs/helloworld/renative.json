@@ -2,7 +2,7 @@
     "extend": "base",
     "id": "helloworld",
     "common": {
-        "id": "com.mycompany.movies-assigment-i24",
+        "id": "com.mycompany.moviesAssignmenti24",
         "title": "Hello Renative",
         "description": "Cross-platform application project based on ReNative",
         "buildSchemes": {

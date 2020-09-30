@@ -1,5 +1,5 @@
 {
-    "projectName": "movies-assigment-i24",
+    "projectName": "moviesAssignmenti24",
     "workspaceID": "rnv",
     "paths": {
         "appConfigsDir": "./appConfigs",
@@ -11,7 +11,7 @@
     },
     "defaults": {
         "title": "Hello Renative",
-        "id": "com.mycompany.movies-assigment-i24",
+        "id": "com.mycompany.moviesAssignmenti24",
         "supportedPlatforms": [
             "android",
             "androidtv",
