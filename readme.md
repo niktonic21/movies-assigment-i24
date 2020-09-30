@@ -1,6 +1,7 @@
 ## Overview
 This app is created from https://www.npmjs.com/package/renative-template-hello-world.
 So please folow instalation guide from that page.
+It works on iOS, android, androidTv
 
 ## RN Movie app contains
  1. Home page with 4 carousels, each carousel load more data after reaching the end of the list.
